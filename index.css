@@ -106,6 +106,34 @@ h1 img {
   padding: 1ex;
 }
 
+.contentDiv.editing {
+  background: snow;
+}
+
+.historyDetails {
+  display: flex;
+  gap: 1ex;
+  margin: 1ex;
+}
+
+.updateDiv {
+  background: whitesmoke;
+  margin: 1ex;
+  padding: 1ex;
+}
+
+.editStampDiv {
+  color: gray;
+  display: flex;
+  gap: 1ex;
+}
+
+.editDeleteButton {
+  aspect-ratio: 1;
+  margin-left: auto;
+  width: 3ch;
+}
+
 #creditsDiv {
   margin: 1em auto;
 }

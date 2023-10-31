@@ -9,7 +9,7 @@ const exportButton = document.querySelector('#exportButton');
 /** @type {HTMLDivElement} */
 const archiveDiv = document.querySelector('#archiveDiv');
 
-/** @typedef {{ stamp: string; content: string; }} Entry */
+/** @typedef {{ stamp: string; content: string; history?: Entry[]; }} Entry */
 /** @typedef {Entry[]} Archive */
 
 document.addEventListener('visibilitychange', () => {
@@ -58,7 +58,7 @@ function renderArchive() {
       editorDiv.textContent = entry.content;
     });
 
-    metaDiv.appendChild(recallButton);
+    metaDiv.append(recallButton);
 
     const stamp = new Date(entry.stamp);
 
@@ -66,7 +66,7 @@ function renderArchive() {
     stampDiv.className = 'stampDiv';
     stampDiv.textContent = stamp.toLocaleString();
 
-    metaDiv.appendChild(stampDiv);
+    metaDiv.append(stampDiv);
 
     const deleteButton = document.createElement('button');
     deleteButton.className = 'deleteButton';
@@ -82,17 +82,78 @@ function renderArchive() {
       renderArchive();
     });
 
-    metaDiv.appendChild(deleteButton);
+    metaDiv.append(deleteButton);
 
-    div.appendChild(metaDiv);
+    div.append(metaDiv);
 
     const contentDiv = document.createElement('div');
     contentDiv.className = 'contentDiv';
     contentDiv.textContent = entry.content;
+    contentDiv.contentEditable = 'true';
 
-    div.appendChild(contentDiv);
+    contentDiv.addEventListener('input', () => {
+      contentDiv.classList.add('editing');
+    });
 
-    archiveDiv.appendChild(div);
+    contentDiv.addEventListener('blur', () => {
+      entry.history ??= [];
+      entry.history.unshift({ stamp: new Date().toISOString(), content: entry.content });
+      entry.stamp = new Date().toISOString();
+      entry.content = contentDiv.textContent;
+
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(archive));
+
+      renderArchive();
+    });
+
+    div.append(contentDiv);
+
+    if (entry.history?.length > 0) {
+      const historyDetails = document.createElement('details');
+      historyDetails.className = 'historyDetails';
+
+      const historySummary = document.createElement('summary');
+      historySummary.className = 'historySummary';
+      historySummary.textContent = `History (${entry.history.length} updates)`;
+
+      historyDetails.append(historySummary);
+
+      for (const update of entry.history) {
+        const div = document.createElement('div');
+        div.className = 'updateDiv';
+
+        const stamp = new Date(update.stamp);
+
+        const editStampDiv = document.createElement('div');
+        editStampDiv.className = 'editStampDiv';
+        editStampDiv.textContent = stamp.toLocaleString();
+
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'editDeleteButton';
+        deleteButton.textContent = '⌫';
+        deleteButton.addEventListener('click', () => {
+          if (!confirm('Delete this update?')) {
+            return;
+          }
+
+          const index = entry.history.indexOf(update);
+          entry.history.splice(index, 1);
+          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(archive));
+          renderArchive();
+        });
+
+        editStampDiv.append(deleteButton);
+
+        div.append(editStampDiv, update.content);
+
+        historyDetails.append(div);
+      }
+
+      div.append(historyDetails);
+    }
+
+
+    archiveDiv.append(div);
   }
 
   exportButton.disabled = archive.length === 0;
