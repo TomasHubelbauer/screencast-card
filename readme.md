@@ -1,3 +1,5 @@
+[![pages-build-deployment](https://github.com/TomasHubelbauer/screencast-card/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/TomasHubelbauer/screencast-card/actions/workflows/pages/pages-build-deployment)
+
 # Screencast Card
 
 This is a small utility web app for displaying notes while doing screencasts or
