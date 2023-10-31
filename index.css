@@ -1,0 +1,107 @@
+body {
+  display: flex;
+  flex-direction: column;
+  font: icon;
+  margin: 0;
+}
+
+h1 {
+  align-items: center;
+  box-shadow: 0 0 1ex rgba(0, 0, 0, .25);
+  background: whitesmoke;
+  display: flex;
+  gap: 1ex;
+  margin: 0;
+  padding: 1ex;
+}
+
+h1 img {
+  height: 3ex;
+  width: 3ex;
+}
+
+/*
+ * Note that there's a bug in Firefox where when an element is `contenteditable`
+ * and empty, the caret appears to the left despite `text-align: center`.
+ * I am using a workaround here which works by making the element 1px wide and
+ * centering it with `margin-inline: auto` so that the caret is forced to be in
+ * the center.
+ * This resets itself whenever text is typed at which point normal behavior
+ * takes over - it no longer contains the bug.
+ * I am also removing the `outline` so it is not obvious that the element width
+ * narrows since I don't need the `outline` for assistive technology and this
+ * app is meant to be used by myself only.
+ * See https://stackoverflow.com/a/72428112/2715716
+ */
+
+#editorDiv {
+  font-size: 10em;
+  margin: 1rem;
+  outline: none; /* Hide outline to not reveal the `:empty:focus` shrinkage */
+  text-align: center;
+}
+
+/*
+ * Display a placeholder using `data-` attributes since `contenteditable`
+ * elements do not support the actual `placeholder` attribute.
+ */
+#editorDiv:empty:not(:focus)::before {
+  color: whitesmoke;
+  content: attr(data-placeholder);
+}
+
+#editorDiv:empty:not(:focus):hover::before {
+  color: lightgray;
+  transition: color .25s ease-in-out;
+}
+
+/* Shrink the editor to center it and thus the incorrectly left-aligned caret */
+#editorDiv:empty:focus {
+  width: 1px;
+  margin-inline: auto;
+}
+
+#exportButton {
+  margin: 0 auto 1em;
+  padding: 1ex 1em;
+}
+
+#archiveDiv {
+  display: flex;
+  flex-direction: column;
+  gap: 1ex;
+  margin-inline: auto;
+  width: 80ch;
+}
+
+.entryDiv {
+  border: 1px solid silver;
+  display: flex;
+  flex-direction: column;
+}
+
+.metaDiv {
+  align-items: stretch;
+  background: whitesmoke;
+  display: flex;
+  justify-content: center;
+  padding: 1ex;
+}
+
+.recallButton {
+  aspect-ratio: 1;
+  width: 3ch;
+}
+
+.stampDiv {
+  margin: auto;
+}
+
+.deleteButton {
+  aspect-ratio: 1;
+  width: 3ch;
+}
+
+.contentDiv {
+  padding: 1ex;
+}
