@@ -54,3 +54,8 @@ selected entries and for canceling the selection.
 ### Add Playwright E2E UI tests and run them on pre-commit and in CI
 
 Use GitHub Actions to run Playwright in the CI.
+
+### Make the font gradually smaller as the draft gets longer
+
+I don't necessarily want to force the update to always be on one line, but after
+certain length, it makes sense to make the font smaller.
