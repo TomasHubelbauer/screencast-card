@@ -13,12 +13,19 @@ Whenever the tab becomes invisible, the current note gets archived and the note
 archive is stamped and displayed below on the page for historical reference and
 callbacks as needed.
 
-The web app offers the ability to recall or delete individual entries or to
-export the whole archive as JSON.
-
 ## Online Demo
 
 https://tomashubelbauer.github.io/screencast-card
+
+
+## Features
+
+- Records the draft entry when the tab is left and becomes invisible
+- Allows recalling archive entries for quick new drafts based off them
+- Allows deleting archive entries
+- Allows editing archive entries and keeps update history
+- Allows deleting update history entries
+- Allows exporting the whole archive as JSON
 
 ## Local Development
 
@@ -43,3 +50,7 @@ this possible.
 
 Display buttons for exporting and copying just the selection, for deleting the
 selected entries and for canceling the selection.
+
+### Add Playwright E2E UI tests and run them on pre-commit and in CI
+
+Use GitHub Actions to run Playwright in the CI.
