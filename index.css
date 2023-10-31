@@ -20,6 +20,10 @@ h1 img {
   width: 3ex;
 }
 
+.editing {
+  background: snow;
+}
+
 /*
  * Note that there's a bug in Firefox where when an element is `contenteditable`
  * and empty, the caret appears to the left despite `text-align: center`.
@@ -104,10 +108,6 @@ h1 img {
 
 .contentDiv {
   padding: 1ex;
-}
-
-.contentDiv.editing {
-  background: snow;
 }
 
 .historyDetails {

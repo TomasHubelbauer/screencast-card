@@ -20,16 +20,7 @@ document.addEventListener('visibilitychange', () => {
       break;
     }
     case 'hidden': {
-      if (editorDiv.textContent) {
-        /** @type {Archive} */
-        const archive = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '[]');
-
-        const entry = { stamp: new Date().toISOString(), content: editorDiv.textContent.trim() };
-        archive.unshift(entry);
-
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(archive));
-      }
-
+      recordEntry();
       break;
     }
     default: {
@@ -38,7 +29,40 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 
+editorDiv.addEventListener('input', () => {
+  editorDiv.classList.add('editing');
+});
+
+editorDiv.addEventListener('blur', () => {
+  recordEntry();
+  editorDiv.textContent = '';
+  renderArchive();
+});
+
+editorDiv.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    recordEntry();
+    editorDiv.textContent = '';
+    renderArchive();
+  }
+});
+
+function recordEntry() {
+  if (editorDiv.textContent) {
+    /** @type {Archive} */
+    const archive = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '[]');
+
+    const entry = { stamp: new Date().toISOString(), content: editorDiv.textContent.trim() };
+    archive.unshift(entry);
+
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(archive));
+  }
+}
+
 function renderArchive() {
+  editorDiv.classList.remove('editing');
+
   archiveDiv.replaceChildren();
 
   /** @type {Archive} */
@@ -104,6 +128,21 @@ function renderArchive() {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(archive));
 
       renderArchive();
+    });
+
+    contentDiv.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+
+        entry.history ??= [];
+        entry.history.unshift({ stamp: new Date().toISOString(), content: entry.content });
+        entry.stamp = new Date().toISOString();
+        entry.content = contentDiv.textContent;
+
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(archive));
+
+        renderArchive();
+      }
     });
 
     div.append(contentDiv);
