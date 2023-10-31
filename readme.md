@@ -16,7 +16,7 @@ export the whole archive as JSON.
 
 ## Online Demo
 
-The application is not live anywhere, yet.
+https://tomashubelbauer.github.io/screencast-card
 
 ## Local Development
 
@@ -24,10 +24,6 @@ Open `index.html` in your browser and ensure you have your browser configured
 such that ESM is usable on the `file:` protocol without giving you CORS errors.
 
 ## To-Do
-
-### Deploy the application to GitHub Pages and update the repo and readme URLs
-
-Also add proper repository description and clean up the other metadata.
 
 ### Consider storing the items in IndexedDB instead of browser local storage
 
