@@ -55,6 +55,14 @@ selected entries and for canceling the selection.
 
 Use GitHub Actions to run Playwright in the CI.
 
+### Add tabs for scopes to the top bar with the logo
+
+Right now all entries are collected into a single feed / archive.
+By introducing tabs for scopes, it will be possible to compartmentalize the
+entries per user-defined scopes, like personal and work stuff.
+The scopes should work as suffixes on the local storage key so that each scope
+has its own storage.
+
 ### Make the font gradually smaller as the draft gets longer
 
 I don't necessarily want to force the update to always be on one line, but after
